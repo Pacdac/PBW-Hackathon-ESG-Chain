@@ -3,7 +3,7 @@ This contract allows whitelisted enterprises to put data on the contract for env
 social and governance. The contract has a function to calculate in real time the esg score 
 of an enterprise, environmental should be 50% of the score, social 30% and governance 20%.
 
-You can use the `calculateESGScore` function to calculate the ESG score for an enterprise, 
+You can use the `computeESGScore` function to calculate the ESG score for an enterprise, 
 it will return the score based on the data provided and the weightage given to each parameter.
 
 */
@@ -11,98 +11,206 @@ it will return the score based on the data provided and the weightage given to e
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
+//Import ownable
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract ESGScore is Ownable {
-
-    // Whitelisted enterprises
-    address[] public whitelistedEnterprises;
+contract ESGChain is Ownable {
 
     // Data for each enterprise
     struct EnterpriseData {
-        uint256 E1_score; // Carbon Emissions score (0-10)
-        uint256 E2_score; // Energy Efficiency score (0-10)
-        uint256 E3_score; // Waste Management score (0-10)
-        uint256 S1_score; // Employee Turnover score (0-10)
-        uint256 S2_score; // Employee Safety score (0-10)
-        uint256 S3_score; // Community Engagement score (0-10)
-        uint256 G1_score; // Board Diversity score (0-10)
-        uint256 G2_score; // Executive Compensation score (0-10)
-        uint256 G3_score; // Transparency score (0-10)
+        uint256 esg_score; // Overall ESG score (0-100)
+        uint256 timestamp; // Timestamp of the data
+        uint256 e1_score; // Carbon Emissions score (0-10)
+        uint256 e2_score; // Energy Efficiency score (0-10)
+        uint256 e3_score; // Waste Management score (0-10)
+        uint256 s1_score; // Employee Turnover score (0-10)
+        uint256 s2_score; // Employee Safety score (0-10)
+        uint256 s3_score; // Community Engagement score (0-10)
+        uint256 g1_score; // Board Diversity score (0-10)
+        uint256 g2_score; // Executive Compensation score (0-10)
+        uint256 g1_score3_score; // Transparency score (0-10)
     }
-    mapping(address => EnterpriseData) public enterpriseData;
+
+    struct EnterpriseMetaData {
+        string name; // Name of the enterprise
+        string symbol; // Symbol of the enterprise
+    }
+
+    struct EnterpriseInputData {
+        uint256 e1_score; // Carbon Emissions score (0-10)
+        uint256 e2_score; // Energy Efficiency score (0-10)
+        uint256 e3_score; // Waste Management score (0-10)
+        uint256 s1_score; // Employee Turnover score (0-10)
+        uint256 s2_score; // Employee Safety score (0-10)
+        uint256 s3_score; // Community Engagement score (0-10)
+        uint256 g1_score; // Board Diversity score (0-10)
+        uint256 g2_score; // Executive Compensation score (0-10)
+        uint256 g3_score; // Transparency score (0-10)
+    }
+    // Whitelisted enterprises
+    mapping(address => bool) public whitelistedEnterprises;
+
+    // Mapping to store the data for each enterprise
+    mapping(address => EnterpriseData[]) public enterpriseData;
+
+    // Mapping to store the metadata for each enterprise
+    mapping(address => EnterpriseMetaData) public enterpriseMetaData;
 
     // Event to log enterprise data
-    event EnterpriseDataUpdated(address enterprise, uint256 E1_score, uint256 E2_score, uint256 E3_score, uint256 S1_score, uint256 S2_score, uint256 S3_score, uint256 G1_score, uint256 G2_score, uint256 G3_score);
+    event EnterpriseDataUpdated(
+        address enterprise,
+        uint256 esg_score,
+        uint256 e1_score,
+        uint256 e2_score,
+        uint256 e3_score,
+        uint256 s1_score,
+        uint256 s2_score,
+        uint256 s3_score,
+        uint256 g1_score,
+        uint256 g2_score,
+        uint256 g1_score3_score
+    );
 
     // Weights for each parameter
-    uint256 public E1_weight = 20;
-    uint256 public E2_weight = 15;
-    uint256 public E3_weight = 10;
-    uint256 public S1_weight = 15;
-    uint256 public S2_weight = 15;
-    uint256 public S3_weight = 10;
-    uint256 public G1_weight = 15;
-    uint256 public G2_weight = 10;
-    uint256 public G3_weight = 10;
+    uint256 public e1_weight;
+    uint256 public e2_weight;
+    uint256 public e3_weight;
+    uint256 public s1_weight;
+    uint256 public s2_weight;
+    uint256 public s3_weight;
+    uint256 public g1_weight;
+    uint256 public g2_weight;
+    uint256 public g3_weight;
 
-    // Add an enterprise to the whitelist
-    function addWhitelistedEnterprise(address enterprise) public onlyOwner {
-        whitelistedEnterprises.push(enterprise);
+    // Initialize the contract
+    constructor() Ownable(msg.sender) {
+        e1_weight = 20;
+        e2_weight = 15;
+        e3_weight = 10;
+        s1_weight = 15;
+        s2_weight = 15;
+        s3_weight = 10;
+        g1_weight = 15;
+        g2_weight = 10;
+        g3_weight = 10;
     }
 
-    // Remove an enterprise from the whitelist
-    function removeWhitelistedEnterprise(address enterprise) public onlyOwner {
-        for (uint256 i = 0; i < whitelistedEnterprises.length; i++) {
-            if (whitelistedEnterprises[i] == enterprise) {
-                whitelistedEnterprises[i] = whitelistedEnterprises[whitelistedEnterprises.length - 1];
-                whitelistedEnterprises.pop();
-                break;
-            }
+    // Add an enterprise to the whitelist
+    function manageEnterpriseWhitelist(
+        address[] memory enterprises,
+        bool[] memory whitelisted
+    ) public onlyOwner {
+        require(enterprises.length == whitelisted.length, "Invalid input");
+        for (uint256 i = 0; i < enterprises.length; i++) {
+            whitelistedEnterprises[enterprises[i]] = whitelisted[i];
         }
     }
 
-    // Set the data for an enterprise
-    function setEnterpriseData(uint256 E1_score, uint256 E2_score, uint256 E3_score, uint256 S1_score, uint256 S2_score, uint256 S3_score, uint256 G1_score, uint256 G2_score, uint256 G3_score) public {
-        address enterprise = msg.sender;
+    // Add the data for an enterprise
+    function addEnterpriseData(
+        address enterprise,
+        string memory name,
+        string memory symbol,
+        EnterpriseInputData memory inputData
+    ) public payable onlyOwner {
         require(isWhitelisted(enterprise), "Enterprise is not whitelisted");
-        enterpriseData[enterprise] = EnterpriseData(E1_score, E2_score, E3_score, S1_score, S2_score, S3_score, G1_score, G2_score, G3_score);
-        emit EnterpriseDataUpdated(enterprise, E1_score, E2_score, E3_score, S1_score, S2_score, S3_score, G1_score, G2_score, G3_score);
+        require(msg.value == 10 ether, "Value should be 10 ether to add data");
+        // Calculate the ESG score
+        uint256 esg_score = computeESGScore(
+            inputData.e1_score,
+            inputData.e2_score,
+            inputData.e3_score,
+            inputData.s1_score,
+            inputData.s2_score,
+            inputData.s3_score,
+            inputData.g1_score,
+            inputData.g2_score,
+            inputData.g3_score
+        );
+        uint256 timestamp = block.timestamp;
+
+        // Add the metadata if it is not set already
+        bytes memory nameBytes = bytes(name);
+        if (nameBytes.length == 0) {
+            enterpriseMetaData[enterprise].name = name;
+            enterpriseMetaData[enterprise].symbol = symbol;
+        }
+
+        enterpriseData[enterprise].push() = EnterpriseData(
+            esg_score,
+            timestamp,
+            inputData.e1_score,
+            inputData.e2_score,
+            inputData.e3_score,
+            inputData.s1_score,
+            inputData.s2_score,
+            inputData.s3_score,
+            inputData.g1_score,
+            inputData.g2_score,
+            inputData.g3_score
+        );
+
+        emit EnterpriseDataUpdated(
+            enterprise,
+            esg_score,
+            inputData.e1_score,
+            inputData.e2_score,
+            inputData.e3_score,
+            inputData.s1_score,
+            inputData.s2_score,
+            inputData.s3_score,
+            inputData.g1_score,
+            inputData.g2_score,
+            inputData.g3_score
+        );
     }
 
     // Check if an enterprise is whitelisted
     function isWhitelisted(address enterprise) public view returns (bool) {
-        for (uint256 i = 0; i < whitelistedEnterprises.length; i++) {
-            if (whitelistedEnterprises[i] == enterprise) {
-                return true;
-            }
-        }
-        return false;
+        return whitelistedEnterprises[enterprise];
     }
 
     // Set the weights for each parameter
-    function setWeights(uint256 E1, uint256 E2, uint256 E3, uint256 S1, uint256 S2, uint256 S3, uint256 G1, uint256 G2, uint256 G3) public onlyOwner {
-        E1_weight = E1;
-        E2_weight = E2;
-        E3_weight = E3;
-        S1_weight = S1;
-        S2_weight = S2;
-        S3_weight = S3;
-        G1_weight = G1;
-        G2_weight = G2;
-        G3_weight = G3;
+    function setWeights(
+        uint256 e1,
+        uint256 e2,
+        uint256 e3,
+        uint256 s1,
+        uint256 s2,
+        uint256 s3,
+        uint256 g1,
+        uint256 g2,
+        uint256 g3
+    ) public onlyOwner {
+        e1_weight = e1;
+        e2_weight = e2;
+        e3_weight = e3;
+        s1_weight = s1;
+        s2_weight = s2;
+        s3_weight = s3;
+        g1_weight = g1;
+        g2_weight = g2;
+        g3_weight = g3;
     }
 
+    function computeESGScore(
+        uint256 e1,
+        uint256 e2,
+        uint256 e3,
+        uint256 s1,
+        uint256 s2,
+        uint256 s3,
+        uint256 g1,
+        uint256 g2,
+        uint256 g3
+    ) public view returns (uint256) {
+        uint256 e_score = (e1_weight * e1 + e2_weight * e2 + e3_weight * e3) /
+            (e1_weight + e2_weight + e3_weight);
+        uint256 s_score = (s1_weight * s1 + s2_weight * s2 + s3_weight * s3) /
+            (s1_weight + s2_weight + s3_weight);
+        uint256 g_score = (g1_weight * g1 + g2_weight * g2 + g3_weight * g3) /
+            (g1_weight + g2_weight + g3_weight);
+        return e_score + s_score + g_score;
+    }
 
-    // Calculate the ESG score for an enterprise
-    function calculateESGScore(address enterprise) public view returns (uint256) {
-        require(isWhitelisted(enterprise), "Enterprise is not whitelisted");
-        EnterpriseData memory data = enterpriseData[enterprise];
-        uint256 E_score = (E1_weight * data.E1_score + E2_weight * data.E2_score + E3_weight * data.E3_score) / (E1_weight + E2_weight + E3_weight);
-        uint256 S_score = (S1_weight * data.S1_score + S2_weight * data.S2_score + S3_weight * data.S3_score) / (S1_weight + S2_weight + S3_weight);
-        uint256 G_score = (G1_weight * data.G1_score + G2_weight * data.G2_score + G3_weight * data.G3_score) / (G1_weight + G2_weight + G3_weight);
-
-        uint256 score = E_score + S_score + G_score;
-        return score;
-    }  
 }
