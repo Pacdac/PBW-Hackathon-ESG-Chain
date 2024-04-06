@@ -27,7 +27,7 @@ contract ESGChain is Ownable {
         uint256 s3_score; // Community Engagement score (0-10)
         uint256 g1_score; // Board Diversity score (0-10)
         uint256 g2_score; // Executive Compensation score (0-10)
-        uint256 g1_score3_score; // Transparency score (0-10)
+        uint256 g3_score; // Transparency score (0-10)
     }
 
     struct EnterpriseMetaData {
@@ -67,7 +67,7 @@ contract ESGChain is Ownable {
         uint256 s3_score,
         uint256 g1_score,
         uint256 g2_score,
-        uint256 g1_score3_score
+        uint256 g3_score
     );
 
     // Weights for each parameter
