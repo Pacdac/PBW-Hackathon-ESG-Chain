@@ -8,7 +8,16 @@ import { FaBalanceScaleLeft } from "react-icons/fa";
 import { TbReportAnalytics } from "react-icons/tb";
 import { GiDiscussion } from "react-icons/gi";
 
+import fetchEventLogs from "@/scripts/etherScripts";
+
 export default function Home() {
+
+  const fetchData = async () => {
+    const events = await fetchEventLogs();
+    console.log(events);
+  };
+
+  fetchData();
   return (
     <>
       <Header />
