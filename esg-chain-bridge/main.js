@@ -1,4 +1,5 @@
 const Web3 = require('web3');
+const xrpl = require('xrpl');
 
 const ContractAddress = '0x1319E45F8D6ea3bbc1ddB295EBf264Bd66Ef2CC7';
 const ContractABI = [
@@ -604,6 +605,17 @@ function getEventsFromLatestBlock() {
             })
             .then((events) => {
                 console.log(events);
+
+                // Mint
+                const issuerAddress = 'rNbBusyjiJuYREyyMGqja2ekc7tugVmxLr';
+                const issuerSecret = '518F735402AD83B9A458513DEEC17540E33A121DB044819019DF4FE03F8672B8';
+                const metadata = {
+                    name: 'ESG Score',
+                    description: 'ESG Score of the Enterprise',
+                    image: 'https://example.com/image.jpg'
+                };
+                mintNFT(issuerAddress, issuerSecret, metadata)
+
                 latestBlockProcessed = latestBlock;
                 getEventsFromLatestBlock(); // Call the function again to listen for new events
             })
@@ -617,5 +629,40 @@ function getEventsFromLatestBlock() {
             getEventsFromLatestBlock(); // Call the function again if there was an error
         });
 }
+
+async function mintNFT(issuerAddress, issuerSecret, metadata) {
+    const client = new xrpl.Client('wss://s.altnet.rippletest.net:51233');
+  
+    try {
+      // Connect to the XRPL ledger
+      await client.connect();
+  
+      // Construct the NFTokenMint transaction
+      const transaction = {
+        TransactionType: 'NFTokenMint',
+        Account: issuerAddress,
+        URI: 'data:application/json;base64,' + Buffer.from(JSON.stringify(metadata)).toString('base64'),
+        Flags: 2147483648,
+        NFTokenTaxon: 0
+      };
+  
+      // Prepare and sign the transaction
+      const preparedTransaction = await client.autofill(transaction);
+      const signedTransaction = client.sign(preparedTransaction, issuerSecret);
+  
+      // Submit the transaction to the XRPL ledger
+      const transactionResult = await client.submitAndWait(signedTransaction.tx_blob);
+  
+      console.log('Transaction result:', transactionResult);
+  
+      return transactionResult;
+    } catch (error) {
+      console.error('Error:', error);
+      throw error;
+    } finally {
+      // Disconnect from the XRPL ledger
+      client.disconnect();
+    }
+  }
 
 getEventsFromLatestBlock(); // Start listening for events
