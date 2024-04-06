@@ -13,7 +13,7 @@ pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract ESGScore {
+contract ESGScore is Ownable {
 
     // Whitelisted enterprises
     address[] public whitelistedEnterprises;
