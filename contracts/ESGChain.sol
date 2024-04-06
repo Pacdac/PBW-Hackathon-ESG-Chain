@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
 /*
 This contract allows whitelisted enterprises to put data on the contract for environmental, 
 social and governance. The contract has a function to calculate in real time the esg score 
@@ -8,11 +11,7 @@ it will return the score based on the data provided and the weightage given to e
 
 */
 
-// SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
-
-//Import ownable
-import "@openzeppelin/contracts/access/Ownable.sol";
+import "./Ownable.sol";
 
 contract ESGChain is Ownable {
 
