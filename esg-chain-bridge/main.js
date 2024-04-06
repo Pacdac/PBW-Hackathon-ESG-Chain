@@ -1,19 +1,11 @@
 const Web3 = require('web3');
 
-const ContractAddress = '0x49D61ac3d67E73e02F5a1C6220986F4CdcBEaC32';
+const ContractAddress = '0x1319E45F8D6ea3bbc1ddB295EBf264Bd66Ef2CC7';
 const ContractABI = [
 	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "enterprise",
-				"type": "address"
-			}
-		],
-		"name": "addWhitelistedEnterprise",
-		"outputs": [],
+		"inputs": [],
 		"stateMutability": "nonpayable",
-		"type": "function"
+		"type": "constructor"
 	},
 	{
 		"anonymous": false,
@@ -27,55 +19,61 @@ const ContractABI = [
 			{
 				"indexed": false,
 				"internalType": "uint256",
-				"name": "E1_score",
+				"name": "esg_score",
 				"type": "uint256"
 			},
 			{
 				"indexed": false,
 				"internalType": "uint256",
-				"name": "E2_score",
+				"name": "e1_score",
 				"type": "uint256"
 			},
 			{
 				"indexed": false,
 				"internalType": "uint256",
-				"name": "E3_score",
+				"name": "e2_score",
 				"type": "uint256"
 			},
 			{
 				"indexed": false,
 				"internalType": "uint256",
-				"name": "S1_score",
+				"name": "e3_score",
 				"type": "uint256"
 			},
 			{
 				"indexed": false,
 				"internalType": "uint256",
-				"name": "S2_score",
+				"name": "s1_score",
 				"type": "uint256"
 			},
 			{
 				"indexed": false,
 				"internalType": "uint256",
-				"name": "S3_score",
+				"name": "s2_score",
 				"type": "uint256"
 			},
 			{
 				"indexed": false,
 				"internalType": "uint256",
-				"name": "G1_score",
+				"name": "s3_score",
 				"type": "uint256"
 			},
 			{
 				"indexed": false,
 				"internalType": "uint256",
-				"name": "G2_score",
+				"name": "g1_score",
 				"type": "uint256"
 			},
 			{
 				"indexed": false,
 				"internalType": "uint256",
-				"name": "G3_score",
+				"name": "g2_score",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "g1_score3_score",
 				"type": "uint256"
 			}
 		],
@@ -107,148 +105,124 @@ const ContractABI = [
 				"internalType": "address",
 				"name": "enterprise",
 				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "symbol",
+				"type": "string"
+			},
+			{
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "e1_score",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "e2_score",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "e3_score",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "s1_score",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "s2_score",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "s3_score",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "g1_score",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "g2_score",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "g3_score",
+						"type": "uint256"
+					}
+				],
+				"internalType": "struct ESGChain.EnterpriseInputData",
+				"name": "inputData",
+				"type": "tuple"
 			}
 		],
-		"name": "removeWhitelistedEnterprise",
+		"name": "addEnterpriseData",
 		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "renounceOwnership",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "E1_score",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "E2_score",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "E3_score",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "S1_score",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "S2_score",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "S3_score",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "G1_score",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "G2_score",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "G3_score",
-				"type": "uint256"
-			}
-		],
-		"name": "setEnterpriseData",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "E1",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "E2",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "E3",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "S1",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "S2",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "S3",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "G1",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "G2",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "G3",
-				"type": "uint256"
-			}
-		],
-		"name": "setWeights",
-		"outputs": [],
-		"stateMutability": "nonpayable",
+		"stateMutability": "payable",
 		"type": "function"
 	},
 	{
 		"inputs": [
 			{
-				"internalType": "address",
-				"name": "newOwner",
-				"type": "address"
-			}
-		],
-		"name": "transferOwnership",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
+				"internalType": "uint256",
+				"name": "e1",
+				"type": "uint256"
+			},
 			{
-				"internalType": "address",
-				"name": "enterprise",
-				"type": "address"
+				"internalType": "uint256",
+				"name": "e2",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "e3",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "s1",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "s2",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "s3",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "g1",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "g2",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "g3",
+				"type": "uint256"
 			}
 		],
-		"name": "calculateESGScore",
+		"name": "computeESGScore",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -261,7 +235,7 @@ const ContractABI = [
 	},
 	{
 		"inputs": [],
-		"name": "E1_weight",
+		"name": "e1_weight",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -274,7 +248,7 @@ const ContractABI = [
 	},
 	{
 		"inputs": [],
-		"name": "E2_weight",
+		"name": "e2_weight",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -287,7 +261,7 @@ const ContractABI = [
 	},
 	{
 		"inputs": [],
-		"name": "E3_weight",
+		"name": "e3_weight",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -304,53 +278,68 @@ const ContractABI = [
 				"internalType": "address",
 				"name": "",
 				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
 			}
 		],
 		"name": "enterpriseData",
 		"outputs": [
 			{
 				"internalType": "uint256",
-				"name": "E1_score",
+				"name": "esg_score",
 				"type": "uint256"
 			},
 			{
 				"internalType": "uint256",
-				"name": "E2_score",
+				"name": "timestamp",
 				"type": "uint256"
 			},
 			{
 				"internalType": "uint256",
-				"name": "E3_score",
+				"name": "e1_score",
 				"type": "uint256"
 			},
 			{
 				"internalType": "uint256",
-				"name": "S1_score",
+				"name": "e2_score",
 				"type": "uint256"
 			},
 			{
 				"internalType": "uint256",
-				"name": "S2_score",
+				"name": "e3_score",
 				"type": "uint256"
 			},
 			{
 				"internalType": "uint256",
-				"name": "S3_score",
+				"name": "s1_score",
 				"type": "uint256"
 			},
 			{
 				"internalType": "uint256",
-				"name": "G1_score",
+				"name": "s2_score",
 				"type": "uint256"
 			},
 			{
 				"internalType": "uint256",
-				"name": "G2_score",
+				"name": "s3_score",
 				"type": "uint256"
 			},
 			{
 				"internalType": "uint256",
-				"name": "G3_score",
+				"name": "g1_score",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "g2_score",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "g1_score3_score",
 				"type": "uint256"
 			}
 		],
@@ -358,8 +347,32 @@ const ContractABI = [
 		"type": "function"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "enterpriseMetaData",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "symbol",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [],
-		"name": "G1_weight",
+		"name": "g1_weight",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -372,7 +385,7 @@ const ContractABI = [
 	},
 	{
 		"inputs": [],
-		"name": "G2_weight",
+		"name": "g2_weight",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -385,7 +398,7 @@ const ContractABI = [
 	},
 	{
 		"inputs": [],
-		"name": "G3_weight",
+		"name": "g3_weight",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -416,6 +429,24 @@ const ContractABI = [
 		"type": "function"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "address[]",
+				"name": "enterprises",
+				"type": "address[]"
+			},
+			{
+				"internalType": "bool[]",
+				"name": "whitelisted",
+				"type": "bool[]"
+			}
+		],
+		"name": "manageEnterpriseWhitelist",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"inputs": [],
 		"name": "owner",
 		"outputs": [
@@ -430,7 +461,7 @@ const ContractABI = [
 	},
 	{
 		"inputs": [],
-		"name": "S1_weight",
+		"name": "s1_weight",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -443,7 +474,7 @@ const ContractABI = [
 	},
 	{
 		"inputs": [],
-		"name": "S2_weight",
+		"name": "s2_weight",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -456,7 +487,7 @@ const ContractABI = [
 	},
 	{
 		"inputs": [],
-		"name": "S3_weight",
+		"name": "s3_weight",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -471,16 +502,82 @@ const ContractABI = [
 		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "",
+				"name": "e1",
 				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "e2",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "e3",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "s1",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "s2",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "s3",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "g1",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "g2",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "g3",
+				"type": "uint256"
+			}
+		],
+		"name": "setWeights",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "transferOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
 			}
 		],
 		"name": "whitelistedEnterprises",
 		"outputs": [
 			{
-				"internalType": "address",
+				"internalType": "bool",
 				"name": "",
-				"type": "address"
+				"type": "bool"
 			}
 		],
 		"stateMutability": "view",
