@@ -16,9 +16,6 @@ pragma solidity ^0.8.0;
 
 contract ESGScore {
 
-    // Mapping of enterprise addresses to their ESG scores
-    mapping(address => uint256) public esgScores;
-
     // Whitelisted enterprises
     address[] public whitelistedEnterprises;
 
@@ -35,6 +32,9 @@ contract ESGScore {
         uint256 G3_score; // Transparency score (0-10)
     }
     mapping(address => EnterpriseData) public enterpriseData;
+
+    // Event to log enterprise data
+    event EnterpriseDataUpdated(address enterprise, uint256 E1_score, uint256 E2_score, uint256 E3_score, uint256 S1_score, uint256 S2_score, uint256 S3_score, uint256 G1_score, uint256 G2_score, uint256 G3_score);
 
     // Weights for each parameter
     uint256 public E1_weight = 20;
@@ -68,6 +68,7 @@ contract ESGScore {
         address enterprise = msg.sender;
         require(isWhitelisted(enterprise), "Enterprise is not whitelisted");
         enterpriseData[enterprise] = EnterpriseData(E1_score, E2_score, E3_score, S1_score, S2_score, S3_score, G1_score, G2_score, G3_score);
+        emit EnterpriseDataUpdated(enterprise, E1_score, E2_score, E3_score, S1_score, S2_score, S3_score, G1_score, G2_score, G3_score);
     }
 
     // Check if an enterprise is whitelisted
