@@ -9,10 +9,9 @@ it will return the score based on the data provided and the weightage given to e
 */
 
 // SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
-
-pragma solidity ^0.8.0;
 
 contract ESGScore {
 
@@ -48,12 +47,12 @@ contract ESGScore {
     uint256 public G3_weight = 10;
 
     // Add an enterprise to the whitelist
-    function addWhitelistedEnterprise(address enterprise) onlyOwner {
+    function addWhitelistedEnterprise(address enterprise) public onlyOwner {
         whitelistedEnterprises.push(enterprise);
     }
 
     // Remove an enterprise from the whitelist
-    function removeWhitelistedEnterprise(address enterprise) onlyOwner {
+    function removeWhitelistedEnterprise(address enterprise) public onlyOwner {
         for (uint256 i = 0; i < whitelistedEnterprises.length; i++) {
             if (whitelistedEnterprises[i] == enterprise) {
                 whitelistedEnterprises[i] = whitelistedEnterprises[whitelistedEnterprises.length - 1];
@@ -82,7 +81,7 @@ contract ESGScore {
     }
 
     // Set the weights for each parameter
-    function setWeights(uint256 E1, uint256 E2, uint256 E3, uint256 S1, uint256 S2, uint256 S3, uint256 G1, uint256 G2, uint256 G3) onlyOwner {
+    function setWeights(uint256 E1, uint256 E2, uint256 E3, uint256 S1, uint256 S2, uint256 S3, uint256 G1, uint256 G2, uint256 G3) public onlyOwner {
         E1_weight = E1;
         E2_weight = E2;
         E3_weight = E3;
