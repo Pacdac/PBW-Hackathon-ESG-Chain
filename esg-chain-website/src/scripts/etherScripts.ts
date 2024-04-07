@@ -52,12 +52,9 @@ async function processEventLog(log: ethers.EventLog, contract: ethers.Contract):
 export async function fetchEventLogs(): Promise<EnterpriseInfo[]> {
     const provider = new ethers.JsonRpcProvider(rpcURL);
     const contract = new ethers.Contract(contractAddressEVM, abi, provider);
-    //const blockNumber = await provider.getBlockNumber();
-    const blockNumber= 7544989;
+    const blockNumber = await provider.getBlockNumber();
     let events: ethers.EventLog[] = [];
-    //for (let i = 0; i < 100; i++) {
-        events = (await contract.queryFilter("EnterpriseDataUpdated", blockNumber - 4000, blockNumber + 5000) as ethers.EventLog[]);
-    //}
+    events = (await contract.queryFilter("EnterpriseDataUpdated", blockNumber - 9000, blockNumber) as ethers.EventLog[]);
     const enterpriseInfos = await Promise.all(events.map((event) => processEventLog(event, contract)));
     return enterpriseInfos;
 }

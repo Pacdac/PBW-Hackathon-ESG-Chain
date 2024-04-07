@@ -10,79 +10,25 @@ import { FaBalanceScaleLeft } from "react-icons/fa";
 import { TbReportAnalytics } from "react-icons/tb";
 import { GiDiscussion } from "react-icons/gi";
 import Card from "@/components/commons/card";
-import {fetchEventLogs} from "@/scripts/etherScripts";
+import { fetchEventLogs } from "@/scripts/etherScripts";
 import { EnterpriseInfo } from "@/scripts/etherScripts";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Home() {
   const [enterpriseInfos, setEnterpriseInfos] = useState<EnterpriseInfo[]>([]);
+
   const fetchData = async () => {
     const infos = await fetchEventLogs();
-    setEnterpriseInfos(infos);
+    if (infos.length !== enterpriseInfos.length) {
+      console.log(infos);
+      setEnterpriseInfos(infos);
+    }
   };
 
-  const fakeTempEnterpriseInfos: EnterpriseInfo[] = [
-    {
-      name: "Test",
-      symbol: "TST",
-      enterprise: "0x",
-      esg_score: 100,
-      e1_score: 100,
-      e2_score: 100,
-      e3_score: 100,
-      s1_score: 100,
-      s2_score: 100,
-      s3_score: 100,
-      g1_score: 100,
-      g2_score: 100,
-      g3_score: 100,
-    },
-    {
-      name: "IARD Solutions",
-      symbol: "IARDS",
-      enterprise: "0x",
-      esg_score: 100,
-      e1_score: 100,
-      e2_score: 100,
-      e3_score: 100,
-      s1_score: 100,
-      s2_score: 100,
-      s3_score: 100,
-      g1_score: 100,
-      g2_score: 100,
-      g3_score: 100,
-    },
-    {
-      name: "Tesla",
-      symbol: "TST",
-      enterprise: "0x",
-      esg_score: 100,
-      e1_score: 100,
-      e2_score: 100,
-      e3_score: 100,
-      s1_score: 100,
-      s2_score: 100,
-      s3_score: 100,
-      g1_score: 100,
-      g2_score: 100,
-      g3_score: 100,
-    },
-    {
-      name: "Amazon",
-      symbol: "TST",
-      enterprise: "0x",
-      esg_score: 100,
-      e1_score: 100,
-      e2_score: 100,
-      e3_score: 100,
-      s1_score: 100,
-      s2_score: 100,
-      s3_score: 100,
-      g1_score: 100,
-      g2_score: 100,
-      g3_score: 100,
-    },
-  ];
+  useEffect(() => {
+    const interval = setInterval(fetchData, 60000); // Refresh every minute
+    return () => clearInterval(interval); // Clear interval on component unmount
+  }, []);
 
   fetchData();
   return (
@@ -141,7 +87,7 @@ export default function Home() {
         </div>
 
         <div className="grid grid-cols-3 gap-16">
-          {fakeTempEnterpriseInfos.map((info, index) => (
+          {enterpriseInfos.map((info, index) => (
             <Card key={index} name={info.name} symbol={info.symbol} score={info.esg_score} />
           ))}
         </div>
