@@ -608,8 +608,8 @@ function getEventsFromLatestBlock() {
                     
                     if (events.length !== 0) {
                         // Mint
-                        const issuerAddress = 'rfVVp6yjg51QfchPEed55dKXDSUvia3nx6';
-                        const issuerSecret = 'sEdSKuZHvtszbNSTDYFq56pFLwEAq6b';
+                        const issuerAddress = 'raAUFBm44d7BwWqVEA1EGJp6Mj8cAvvL2z';
+                        const issuerSecret = 'sEdTuwDQDNCTfPam8Px4ZXz6gkeRjnY';
                         const metadata = {
                             enterprise: events[0].returnValues.enterprise,
                             esg: events[0].returnValues.esg_score,
