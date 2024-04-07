@@ -129,7 +129,7 @@ contract ESGChain is Ownable {
         uint256 timestamp = block.timestamp;
 
         // Add the metadata if it is not set already
-        bytes memory nameBytes = bytes(name);
+        bytes memory nameBytes = bytes(enterpriseMetaData[enterprise].name);
         if (nameBytes.length == 0) {
             enterpriseMetaData[enterprise].name = name;
             enterpriseMetaData[enterprise].symbol = symbol;
