@@ -1,589 +1,589 @@
 const Web3 = require('web3');
 const xrpl = require('xrpl');
 
-const ContractAddress = '0x0b3c32cB6D5A35218eeA43e78C48f9cB70Ab15db';
+const ContractAddress = '0x3Bfb6b1b248441B70095105aBDBD044EEe1F21Ec';
 const ContractABI = [
-    {
-        "inputs": [],
-        "stateMutability": "nonpayable",
-        "type": "constructor"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": false,
-                "internalType": "address",
-                "name": "enterprise",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "esg_score",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "e1_score",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "e2_score",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "e3_score",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "s1_score",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "s2_score",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "s3_score",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "g1_score",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "g2_score",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "g1_score3_score",
-                "type": "uint256"
-            }
-        ],
-        "name": "EnterpriseDataUpdated",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": true,
-                "internalType": "address",
-                "name": "previousOwner",
-                "type": "address"
-            },
-            {
-                "indexed": true,
-                "internalType": "address",
-                "name": "newOwner",
-                "type": "address"
-            }
-        ],
-        "name": "OwnershipTransferred",
-        "type": "event"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "address",
-                "name": "enterprise",
-                "type": "address"
-            },
-            {
-                "internalType": "string",
-                "name": "name",
-                "type": "string"
-            },
-            {
-                "internalType": "string",
-                "name": "symbol",
-                "type": "string"
-            },
-            {
-                "components": [
-                    {
-                        "internalType": "uint256",
-                        "name": "e1_score",
-                        "type": "uint256"
-                    },
-                    {
-                        "internalType": "uint256",
-                        "name": "e2_score",
-                        "type": "uint256"
-                    },
-                    {
-                        "internalType": "uint256",
-                        "name": "e3_score",
-                        "type": "uint256"
-                    },
-                    {
-                        "internalType": "uint256",
-                        "name": "s1_score",
-                        "type": "uint256"
-                    },
-                    {
-                        "internalType": "uint256",
-                        "name": "s2_score",
-                        "type": "uint256"
-                    },
-                    {
-                        "internalType": "uint256",
-                        "name": "s3_score",
-                        "type": "uint256"
-                    },
-                    {
-                        "internalType": "uint256",
-                        "name": "g1_score",
-                        "type": "uint256"
-                    },
-                    {
-                        "internalType": "uint256",
-                        "name": "g2_score",
-                        "type": "uint256"
-                    },
-                    {
-                        "internalType": "uint256",
-                        "name": "g3_score",
-                        "type": "uint256"
-                    }
-                ],
-                "internalType": "struct ESGChain.EnterpriseInputData",
-                "name": "inputData",
-                "type": "tuple"
-            }
-        ],
-        "name": "addEnterpriseData",
-        "outputs": [],
-        "stateMutability": "payable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "uint256",
-                "name": "e1",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "e2",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "e3",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "s1",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "s2",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "s3",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "g1",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "g2",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "g3",
-                "type": "uint256"
-            }
-        ],
-        "name": "computeESGScore",
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "e1_weight",
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "e2_weight",
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "e3_weight",
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "address",
-                "name": "",
-                "type": "address"
-            },
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            }
-        ],
-        "name": "enterpriseData",
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "esg_score",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "timestamp",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "e1_score",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "e2_score",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "e3_score",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "s1_score",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "s2_score",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "s3_score",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "g1_score",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "g2_score",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "g1_score3_score",
-                "type": "uint256"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "address",
-                "name": "",
-                "type": "address"
-            }
-        ],
-        "name": "enterpriseMetaData",
-        "outputs": [
-            {
-                "internalType": "string",
-                "name": "name",
-                "type": "string"
-            },
-            {
-                "internalType": "string",
-                "name": "symbol",
-                "type": "string"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "g1_weight",
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "g2_weight",
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "g3_weight",
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "address",
-                "name": "enterprise",
-                "type": "address"
-            }
-        ],
-        "name": "isWhitelisted",
-        "outputs": [
-            {
-                "internalType": "bool",
-                "name": "",
-                "type": "bool"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "address[]",
-                "name": "enterprises",
-                "type": "address[]"
-            },
-            {
-                "internalType": "bool[]",
-                "name": "whitelisted",
-                "type": "bool[]"
-            }
-        ],
-        "name": "manageEnterpriseWhitelist",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "owner",
-        "outputs": [
-            {
-                "internalType": "address",
-                "name": "",
-                "type": "address"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "s1_weight",
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "s2_weight",
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "s3_weight",
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "uint256",
-                "name": "e1",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "e2",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "e3",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "s1",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "s2",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "s3",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "g1",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "g2",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "g3",
-                "type": "uint256"
-            }
-        ],
-        "name": "setWeights",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "address",
-                "name": "newOwner",
-                "type": "address"
-            }
-        ],
-        "name": "transferOwnership",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "address",
-                "name": "",
-                "type": "address"
-            }
-        ],
-        "name": "whitelistedEnterprises",
-        "outputs": [
-            {
-                "internalType": "bool",
-                "name": "",
-                "type": "bool"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    }
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "enterprise",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "symbol",
+				"type": "string"
+			},
+			{
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "e1_score",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "e2_score",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "e3_score",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "s1_score",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "s2_score",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "s3_score",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "g1_score",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "g2_score",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "g3_score",
+						"type": "uint256"
+					}
+				],
+				"internalType": "struct ESGChain.EnterpriseInputData",
+				"name": "inputData",
+				"type": "tuple"
+			}
+		],
+		"name": "addEnterpriseData",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address[]",
+				"name": "enterprises",
+				"type": "address[]"
+			},
+			{
+				"internalType": "bool[]",
+				"name": "whitelisted",
+				"type": "bool[]"
+			}
+		],
+		"name": "manageEnterpriseWhitelist",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "enterprise",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "esg_score",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "e1_score",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "e2_score",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "e3_score",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "s1_score",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "s2_score",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "s3_score",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "g1_score",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "g2_score",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "g3_score",
+				"type": "uint256"
+			}
+		],
+		"name": "EnterpriseDataUpdated",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "previousOwner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "OwnershipTransferred",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "e1",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "e2",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "e3",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "s1",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "s2",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "s3",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "g1",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "g2",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "g3",
+				"type": "uint256"
+			}
+		],
+		"name": "setWeights",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "transferOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "e1",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "e2",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "e3",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "s1",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "s2",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "s3",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "g1",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "g2",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "g3",
+				"type": "uint256"
+			}
+		],
+		"name": "computeESGScore",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "e1_weight",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "e2_weight",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "e3_weight",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "enterpriseData",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "esg_score",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "timestamp",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "e1_score",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "e2_score",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "e3_score",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "s1_score",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "s2_score",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "s3_score",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "g1_score",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "g2_score",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "g3_score",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "enterpriseMetaData",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "symbol",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "g1_weight",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "g2_weight",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "g3_weight",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "enterprise",
+				"type": "address"
+			}
+		],
+		"name": "isWhitelisted",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "owner",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "s1_weight",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "s2_weight",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "s3_weight",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "whitelistedEnterprises",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
 ];
 
 const web3 = new Web3('https://rpc-evm-sidechain.xrpl.org');
@@ -608,8 +608,8 @@ function getEventsFromLatestBlock() {
                     
                     if (events.length !== 0) {
                         // Mint
-                        const issuerAddress = 'rfVVp6yjg51QfchPEed55dKXDSUvia3nx6';
-                        const issuerSecret = 'sEdSKuZHvtszbNSTDYFq56pFLwEAq6b';
+                        const issuerAddress = 'raAUFBm44d7BwWqVEA1EGJp6Mj8cAvvL2z';
+                        const issuerSecret = 'sEdTuwDQDNCTfPam8Px4ZXz6gkeRjnY';
                         const metadata = {
                             enterprise: events[0].returnValues.enterprise,
                             esg: events[0].returnValues.esg_score,
