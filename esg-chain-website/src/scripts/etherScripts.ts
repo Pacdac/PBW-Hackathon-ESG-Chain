@@ -21,7 +21,7 @@ interface EventLogData {
     g3_score: number;
 }
 
-interface EnterpriseInfo extends EnterpriseMetaData, EventLogData { }
+export interface EnterpriseInfo extends EnterpriseMetaData, EventLogData { }
 
 async function getEnterpriseMetaData(contract: ethers.Contract, enterpriseAddress: string): Promise<EnterpriseMetaData> {
     const enterpriseMetaData = await contract.enterpriseMetaData(enterpriseAddress);
@@ -49,14 +49,41 @@ async function processEventLog(log: ethers.EventLog, contract: ethers.Contract):
     return { ...metaData, ...eventData };
 }
 
-async function fetchEventLogs(): Promise<EnterpriseInfo[]> {
+export async function fetchEventLogs(): Promise<EnterpriseInfo[]> {
     const provider = new ethers.JsonRpcProvider(rpcURL);
     const contract = new ethers.Contract(contractAddressEVM, abi, provider);
-    const blockNumber = await provider.getBlockNumber();
-    const events = await contract.queryFilter("EnterpriseDataUpdated", blockNumber - 9900, 'latest') as ethers.EventLog[];
+    //const blockNumber = await provider.getBlockNumber();
+    const blockNumber= 7544989;
+    let events: ethers.EventLog[] = [];
+    //for (let i = 0; i < 100; i++) {
+        events = (await contract.queryFilter("EnterpriseDataUpdated", blockNumber - 4000, blockNumber + 5000) as ethers.EventLog[]);
+    //}
     const enterpriseInfos = await Promise.all(events.map((event) => processEventLog(event, contract)));
-
     return enterpriseInfos;
 }
 
-export default fetchEventLogs;
+interface InputRawData {
+    e1_score: number;
+    e2_score: number;
+    e3_score: number;
+    s1_score: number;
+    s2_score: number;
+    s3_score: number;
+    g1_score: number;
+    g2_score: number;
+    g3_score: number;
+}
+
+export interface EnterpriseInputData {
+    address: string;
+    name: string;
+    symbol: string;
+    rawData: InputRawData;
+}
+
+export async function addESGScore(data : EnterpriseInputData) {
+    const provider = new ethers.JsonRpcProvider(rpcURL);
+    const signer = provider.getSigner();
+    const contract = new ethers.Contract(contractAddressEVM, abi);
+    await contract.addEnterpriseData(data.address, data.name, data.symbol, [ data.rawData.e1_score, data.rawData.e2_score, data.rawData.e3_score, data.rawData.s1_score, data.rawData.s2_score, data.rawData.s3_score, data.rawData.g1_score, data.rawData.g2_score, data.rawData.g3_score ]);
+}

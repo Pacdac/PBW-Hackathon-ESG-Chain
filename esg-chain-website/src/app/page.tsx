@@ -1,3 +1,5 @@
+'use client';
+
 import StaticCards from "@/components/commons/staticCards";
 import Header from "@/components/header/header";
 import { MdOutlineElectricalServices } from "react-icons/md";
@@ -7,15 +9,80 @@ import { BiNetworkChart } from "react-icons/bi";
 import { FaBalanceScaleLeft } from "react-icons/fa";
 import { TbReportAnalytics } from "react-icons/tb";
 import { GiDiscussion } from "react-icons/gi";
-
-import fetchEventLogs from "@/scripts/etherScripts";
+import Card from "@/components/commons/card";
+import {fetchEventLogs} from "@/scripts/etherScripts";
+import { EnterpriseInfo } from "@/scripts/etherScripts";
+import { useState } from "react";
 
 export default function Home() {
-
+  const [enterpriseInfos, setEnterpriseInfos] = useState<EnterpriseInfo[]>([]);
   const fetchData = async () => {
-    const events = await fetchEventLogs();
-    console.log(events);
+    const infos = await fetchEventLogs();
+    setEnterpriseInfos(infos);
   };
+
+  const fakeTempEnterpriseInfos: EnterpriseInfo[] = [
+    {
+      name: "Test",
+      symbol: "TST",
+      enterprise: "0x",
+      esg_score: 100,
+      e1_score: 100,
+      e2_score: 100,
+      e3_score: 100,
+      s1_score: 100,
+      s2_score: 100,
+      s3_score: 100,
+      g1_score: 100,
+      g2_score: 100,
+      g3_score: 100,
+    },
+    {
+      name: "IARD Solutions",
+      symbol: "IARDS",
+      enterprise: "0x",
+      esg_score: 100,
+      e1_score: 100,
+      e2_score: 100,
+      e3_score: 100,
+      s1_score: 100,
+      s2_score: 100,
+      s3_score: 100,
+      g1_score: 100,
+      g2_score: 100,
+      g3_score: 100,
+    },
+    {
+      name: "Tesla",
+      symbol: "TST",
+      enterprise: "0x",
+      esg_score: 100,
+      e1_score: 100,
+      e2_score: 100,
+      e3_score: 100,
+      s1_score: 100,
+      s2_score: 100,
+      s3_score: 100,
+      g1_score: 100,
+      g2_score: 100,
+      g3_score: 100,
+    },
+    {
+      name: "Amazon",
+      symbol: "TST",
+      enterprise: "0x",
+      esg_score: 100,
+      e1_score: 100,
+      e2_score: 100,
+      e3_score: 100,
+      s1_score: 100,
+      s2_score: 100,
+      s3_score: 100,
+      g1_score: 100,
+      g2_score: 100,
+      g3_score: 100,
+    },
+  ];
 
   fetchData();
   return (
@@ -67,11 +134,16 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="flex flex-col items-center justify-center mt-20">
+        <div className="flex flex-col items-center justify-center my-20">
           <div className="flex flex-row items-center justify-between w-full">
-            <p className="text-xl text-left pr-80">We bring our rating to the chain so you can effortlessly integrate them into your products.</p>
-            <h2 className="text-4xl font-bold text-right">Our Ratings</h2>
+            <h2 className="text-4xl font-bold text-center">Our Ratings</h2>
           </div>
+        </div>
+
+        <div className="grid grid-cols-3 gap-16">
+          {fakeTempEnterpriseInfos.map((info, index) => (
+            <Card key={index} name={info.name} symbol={info.symbol} score={info.esg_score} />
+          ))}
         </div>
 
       </main>
