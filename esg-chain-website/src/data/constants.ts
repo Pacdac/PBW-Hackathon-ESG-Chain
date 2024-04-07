@@ -1,4 +1,4 @@
 
-export const contractAddressEVM = "0x0b3c32cB6D5A35218eeA43e78C48f9cB70Ab15db";
-export const nftAddressXRPL = "rfVVp6yjg51QfchPEed55dKXDSUvia3nx6";
+export const contractAddressEVM = "0x3Bfb6b1b248441B70095105aBDBD044EEe1F21Ec";
+export const nftAddressXRPL = "raAUFBm44d7BwWqVEA1EGJp6Mj8cAvvL2z";
 export const rpcURL = "https://rpc-evm-sidechain.xrpl.org/" 
