@@ -9,7 +9,7 @@ export default function Header() {
             <div className="container py-6 flex justify-between">
                 <Link href="/" className="text-2xl font-bold text-gray-800">ESGChain</Link>
                 <div className="flex flex-row gap-12 items-center" >
-                <Link href="/apply" className="text-xl font-medium text-gray-800">Get Your Score</Link>
+                <Link href="/apply" className="text-xl font-medium text-gray-800">Send Data</Link>
              <WalletConnect />
                 </div>
             </div>

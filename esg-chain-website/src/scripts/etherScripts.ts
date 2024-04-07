@@ -81,9 +81,29 @@ export interface EnterpriseInputData {
     rawData: InputRawData;
 }
 
-export async function addESGScore(data : EnterpriseInputData) {
-    const provider = new ethers.JsonRpcProvider(rpcURL);
-    const signer = provider.getSigner();
-    const contract = new ethers.Contract(contractAddressEVM, abi);
-    await contract.addEnterpriseData(data.address, data.name, data.symbol, [ data.rawData.e1_score, data.rawData.e2_score, data.rawData.e3_score, data.rawData.s1_score, data.rawData.s2_score, data.rawData.s3_score, data.rawData.g1_score, data.rawData.g2_score, data.rawData.g3_score ]);
+export async function addESGScore(data: EnterpriseInputData) {
+    const provider = new ethers.BrowserProvider(window.ethereum);
+    await provider.send("eth_requestAccounts", []);
+    const signer = await provider.getSigner();
+    const contract = new ethers.Contract(contractAddressEVM, abi, signer);
+
+    const transaction = await contract.addEnterpriseData(
+        data.address,
+        data.name,
+        data.symbol,
+        [
+            data.rawData.e1_score,
+            data.rawData.e2_score,
+            data.rawData.e3_score,
+            data.rawData.s1_score,
+            data.rawData.s2_score,
+            data.rawData.s3_score,
+            data.rawData.g1_score,
+            data.rawData.g2_score,
+            data.rawData.g3_score
+        ],
+        { value: ethers.parseEther('10') } // send 10 ether with the transaction
+    );
+
+    await transaction.wait();
 }

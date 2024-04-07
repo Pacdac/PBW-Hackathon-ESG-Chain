@@ -44,12 +44,12 @@ const Page = () => {
     return (
         <>
             <Header />
-            <div className="flex min-h-screen flex-col items-center justify-between py-24">
-                <h1 className="text-4xl font-bold">Get your ESG score today</h1>
-                <div className="bg-color-secondary p-4">
+            <div className="flex min-h-screen flex-col items-center justify-between py-24 bg-gray-100">
+                <h1 className="text-4xl font-bold text-center text-gray-800 mb-10">Send Data</h1>
+                <div className="bg-white shadow-md rounded-md px-8 pt-6 pb-8 mb-4">
                     <form onSubmit={handleSubmit} className="grid grid-cols-3 gap-4">
                         <label className="flex flex-col">
-                            <span className="mb-2">Enterprise Name:</span>
+                            <span className="mb-2 text-gray-700">Enterprise Name:</span>
                             <input
                                 type="text"
                                 value={enterpriseName}
@@ -58,16 +58,16 @@ const Page = () => {
                             />
                         </label>
                         <label className="flex flex-col">
-                            <span className="mb-2">Symbol:</span>
+                            <span className="mb-2 text-gray-700">Ticker:</span>
                             <input
-                                type="number"
+                                type="text"
                                 value={symbol}
                                 onChange={(e) => setSymbol(e.target.value)}
                                 className="border border-gray-300 rounded-md p-2"
                             />
                         </label>
                         <label className="flex flex-col">
-                            <span className="mb-2">Crypto Address:</span>
+                            <span className="mb-2 text-gray-700">Crypto Address:</span>
                             <input
                                 type="text"
                                 value={cryptoAddress}
@@ -75,88 +75,115 @@ const Page = () => {
                                 className="border border-gray-300 rounded-md p-2"
                             />
                         </label>
-                        <label className="flex flex-col">
-                            <span className="mb-2">Social Field 1:</span>
+                        <label className="flex flex-col items-start">
+                            <span className="mb-2 text-gray-700">Employee Turnover score:</span>
                             <input
-                                type="number"
+                                type="range"
+                                min="0"
+                                max="10"
                                 value={socialField1}
                                 onChange={(e) => setSocialField1(e.target.value)}
-                                className="border border-gray-300 rounded-md p-2"
+                                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
                             />
+                            <span className="ml-2 text-gray-700">{socialField1}</span>
                         </label>
-                        <label className="flex flex-col">
-                            <span className="mb-2">Social Field 2:</span>
+                        <label className="flex flex-col items-start">
+                            <span className="mb-2 text-gray-700">Employee Safety score:</span>
                             <input
-                                type="text"
+                                type="range"
+                                min="0"
+                                max="10"
                                 value={socialField2}
                                 onChange={(e) => setSocialField2(e.target.value)}
-                                className="border border-gray-300 rounded-md p-2"
+                                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
                             />
+                            <span className="ml-2 text-gray-700">{socialField2}</span>
                         </label>
-                        <label className="flex flex-col">
-                            <span className="mb-2">Social Field 3:</span>
+                        <label className="flex flex-col items-start">
+                            <span className="mb-2 text-gray-700">Community Engagement score:</span>
                             <input
-                                type="text"
+                                type="range"
+                                min="0"
+                                max="10"
                                 value={socialField3}
                                 onChange={(e) => setSocialField3(e.target.value)}
-                                className="border border-gray-300 rounded-md p-2"
+                                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
                             />
+                            <span className="ml-2 text-gray-700">{socialField3}</span>
                         </label>
-                        <label className="flex flex-col">
-                            <span className="mb-2">Environmental Field 1:</span>
+                        <label className="flex flex-col items-start">
+                            <span className="mb-2 text-gray-700">Carbon Emissions score:</span>
                             <input
-                                type="text"
+                                type="range"
+                                min="0"
+                                max="10"
                                 value={environmentalField1}
                                 onChange={(e) => setEnvironmentalField1(e.target.value)}
-                                className="border border-gray-300 rounded-md p-2"
+                                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
                             />
+                            <span className="ml-2 text-gray-700">{environmentalField1}</span>
                         </label>
-                        <label className="flex flex-col">
-                            <span className="mb-2">Environmental Field 2:</span>
+                        <label className="flex flex-col items-start">
+                            <span className="mb-2 text-gray-700">Energy Efficiency score:</span>
                             <input
-                                type="text"
+                                type="range"
+                                min="0"
+                                max="10"
                                 value={environmentalField2}
                                 onChange={(e) => setEnvironmentalField2(e.target.value)}
-                                className="border border-gray-300 rounded-md p-2"
+                                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
                             />
+                            <span className="ml-2 text-gray-700">{environmentalField2}</span>
                         </label>
-                        <label className="flex flex-col">
-                            <span className="mb-2">Environmental Field 3:</span>
+                        <label className="flex flex-col items-start">
+                            <span className="mb-2 text-gray-700">Waste Management score:</span>
                             <input
-                                type="text"
+                                type="range"
+                                min="0"
+                                max="10"
                                 value={environmentalField3}
                                 onChange={(e) => setEnvironmentalField3(e.target.value)}
-                                className="border border-gray-300 rounded-md p-2"
+                                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
                             />
+                            <span className="ml-2 text-gray-700">{environmentalField3}</span>
                         </label>
-                        <label className="flex flex-col">
-                            <span className="mb-2">Governance Field 1:</span>
+                        <label className="flex flex-col items-start">
+                            <span className="mb-2 text-gray-700">Board Diversity score:</span>
                             <input
-                                type="text"
+                                type="range"
+                                min="0"
+                                max="10"
                                 value={governanceField1}
                                 onChange={(e) => setGovernanceField1(e.target.value)}
-                                className="border border-gray-300 rounded-md p-2"
+                                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
                             />
+                            <span className="ml-2 text-gray-700">{governanceField1}</span>
                         </label>
-                        <label className="flex flex-col">
-                            <span className="mb-2">Governance Field 2:</span>
+                        <label className="flex flex-col items-start">
+                            <span className="mb-2 text-gray-700">Executive Compensation score:</span>
                             <input
-                                type="text"
+                                type="range"
+                                min="0"
+                                max="10"
                                 value={governanceField2}
                                 onChange={(e) => setGovernanceField2(e.target.value)}
-                                className="border border-gray-300 rounded-md p-2"
+                                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
                             />
+                            <span className="ml-2 text-gray-700">{governanceField2}</span>
                         </label>
-                        <label className="flex flex-col">
-                            <span className="mb-2">Governance Field 3:</span>
+                        <label className="flex flex-col items-start">
+                            <span className="mb-2 text-gray-700">Transparency score:</span>
                             <input
-                                type="text"
+                                type="range"
+                                min="0"
+                                max="10"
                                 value={governanceField3}
                                 onChange={(e) => setGovernanceField3(e.target.value)}
-                                className="border border-gray-300 rounded-md p-2"
+                                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
                             />
+                            <span className="ml-2 text-gray-700">{governanceField3}</span>
                         </label>
-                        <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded-md">
+                        <button type="submit" className="bg-tertiary-100 hover:bg-tertiary-200 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full col-span-3">
                             Submit
                         </button>
                     </form>

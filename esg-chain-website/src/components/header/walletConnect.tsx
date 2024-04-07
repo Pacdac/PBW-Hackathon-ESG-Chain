@@ -13,6 +13,7 @@ declare global {
 
 export default function WalletConnect() {
     const [walletAddress, setWalletAddress] = useState<string>("");
+    const [signer, setSigner] = useState<ethers.Signer | null>(null);
     const [showDisconnectModal, setShowDisconnectModal] = useState<boolean>(false);
     const disconnectRef = useRef<HTMLDivElement | null>(null);
 
@@ -30,14 +31,15 @@ export default function WalletConnect() {
         };
       }, [showDisconnectModal]);
 
-    async function connectWallet() {
+      async function connectWallet() {
         try {
             const provider = new ethers.BrowserProvider(window.ethereum);
+            await provider.send("eth_requestAccounts", []);
             const signer = await provider.getSigner();
             const address = await signer.getAddress();
             setWalletAddress(address);
-        }
-        catch (error) {
+            setSigner(signer);
+        } catch (error) {
             console.error(error);
         }
     }
