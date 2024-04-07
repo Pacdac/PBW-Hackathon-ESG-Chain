@@ -37,7 +37,7 @@ export default function Home() {
       <main className="flex min-h-screen flex-col items-center justify-between py-24">
         <div className="grid grid-cols-2 gap-8">
           <div className="flex flex-col justify-start items-start px-20">
-            <p className="text-5xl text-left">Native onchain ESG ratings for your xxx crypto project</p>
+            <p className="text-5xl text-left">Native onchain ESG ratings for your project</p>
             <button className="flex items-center bg-tertiary-100 hover:bg-tertiary-200 text-black font-bold py-2 px-4 rounded mt-4">
               Get started
               <svg className="ml-3" width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">

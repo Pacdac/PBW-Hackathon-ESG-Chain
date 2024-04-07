@@ -54,7 +54,7 @@ export async function fetchEventLogs(): Promise<EnterpriseInfo[]> {
     const contract = new ethers.Contract(contractAddressEVM, abi, provider);
     const blockNumber = await provider.getBlockNumber();
     let events: ethers.EventLog[] = [];
-    events = (await contract.queryFilter("EnterpriseDataUpdated", blockNumber - 9000, blockNumber) as ethers.EventLog[]);
+    events = (await contract.queryFilter("EnterpriseDataUpdated", blockNumber - 10000, blockNumber) as ethers.EventLog[]);
     const enterpriseInfos = await Promise.all(events.map((event) => processEventLog(event, contract)));
     return enterpriseInfos;
 }
